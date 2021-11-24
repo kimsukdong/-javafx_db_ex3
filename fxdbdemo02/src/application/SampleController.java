@@ -15,24 +15,31 @@ public class SampleController {
 	Connection conn;
 	Statement stmt = null;
 	ResultSet srs;
+	boolean sw;
 	@FXML
 	private void initialize() {
 		conn = mysqlconnect.ConnectDb();
+		try {
+			stmt = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE );
+			srs = stmt.executeQuery("select * from student");
+			sw = srs.next();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		lookup();
 	}
 	public void lookup() {
 		try {
-
-			stmt = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE );
-			srs = stmt.executeQuery("select * from student");
-
-			if(srs.next()) {
+			if(sw) {
 				tf1.setText(srs.getString("id"));
 				tf2.setText(srs.getString("name"));
 				tf3.setText(srs.getString("email"));
 				tf4.setText(srs.getString("phone"));
-			}
-
+			} 			
+			else {
+				JOptionPane.showMessageDialog(null, "No Data!");    		
+				}
 		} catch (SQLException e) {
 			System.out.println("SQL Error");
 		} 
@@ -51,69 +58,45 @@ public class SampleController {
 
 	@FXML
 	void onClickNext(ActionEvent event) {
+	
 		try {
-			if(srs.next()) {
-				tf1.setText(srs.getString("id"));
-				tf2.setText(srs.getString("name"));
-				tf3.setText(srs.getString("email"));
-				tf4.setText(srs.getString("phone"));
-			}
-			else {
-				JOptionPane.showMessageDialog(null, "No Data !!");     		
-				}
+			sw = srs.next();
 		} catch (SQLException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+			lookup();
 	}
 
 	@FXML
 	void onClickBack(ActionEvent event) {
 		try {
-			if(srs.previous()) {
-				tf1.setText(srs.getString("id"));
-				tf2.setText(srs.getString("name"));
-				tf3.setText(srs.getString("email"));
-				tf4.setText(srs.getString("phone"));
-			}
-			else {
-				JOptionPane.showMessageDialog(null, "No Data !!");      		
-				}  			      
-		} catch (SQLException e) {
-			e.printStackTrace();
+			sw= srs.previous();
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
 		}
+		lookup();
 	}
 
 	@FXML
 	void onClickFirst(ActionEvent event) {
 		try {
-			if(srs.first()) {
-				tf1.setText(srs.getString("id"));
-				tf2.setText(srs.getString("name"));
-				tf3.setText(srs.getString("email"));
-				tf4.setText(srs.getString("phone"));
-			}
-			else {
-				JOptionPane.showMessageDialog(null, "No Data !!");     		
-				}
-		} catch (SQLException e) {
-			e.printStackTrace();
+			sw= srs.first();
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
 		}
+		lookup();
 	}
 	@FXML
 	void onClickLast(ActionEvent event) {
 		try {
-			if(srs.last()) {
-				tf1.setText(srs.getString("id"));
-				tf2.setText(srs.getString("name"));
-				tf3.setText(srs.getString("email"));
-				tf4.setText(srs.getString("phone"));
-			}
-			else {
-				JOptionPane.showMessageDialog(null, "No Data !!");     		
-				}
-		} catch (SQLException e) {
-			e.printStackTrace();
+			sw= srs.last();
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
 		}
+		lookup();
 	}
-
 }

@@ -72,10 +72,11 @@ public class SampleController {
 					JOptionPane.showMessageDialog(null, "Login Success");  
 					email = srs.getString("email");
 					phone = srs.getString("phone");
-					this.uid = id;
-					this.uname = name;
-					this.uemail = email;
-					this.uphone = phone;
+					
+					uid = id;
+					uname = name;
+					uemail = email;
+					uphone = phone;
 
 					Parent root = FXMLLoader.load(getClass().getResource("NewWindow.fxml"));
 			//		Stage stage = new Stage();

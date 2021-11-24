@@ -43,7 +43,6 @@ public class SampleController {
 
 	@FXML
 	void onClickSearch(ActionEvent event) {
-
 		try {		
 			stmt.setString(1, tf5.getText());
 			srs = stmt.executeQuery();
